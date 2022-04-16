@@ -1,9 +1,13 @@
 import React from 'react'
+import { useContext } from 'react'
+import { UserStateContext } from '../context/UserContext'
 
 export default function Navbar() {
+    const contextData = useContext(UserStateContext)
+    
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-black px-4">
+            <nav className="navbar navbar-expand-lg navbar-dark bg-black px-4 py-3">
                 <div className="container-fluid">
                     <a className="navbar-brand fw-bold fs-4" href="#">Edvora</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,10 +16,8 @@ export default function Navbar() {
                     <div className="collapse navbar-collapse " id="navbarSupportedContent">
                     
                         <form className="d-flex ms-auto align-items-center">
-                            {/* <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" /> */}
-                            {/* <button className="btn btn-outline-success" type="submit">Search</button> */}
-                            <span className=' fw-bold text-white me-3'>Rohan Shirsalkar</span>
-                            <img src="https://picsum.photos/200" alt="error" width="40" height="40" class="rounded-circle me-2" />
+                            <span className=' fw-bold text-white me-3'>{contextData.userData.name}</span>
+                            <img src={contextData.userData.url} alt="error" width="40" height="40" className="rounded-circle me-2" />
                         </form>
                     </div>
                 </div>
