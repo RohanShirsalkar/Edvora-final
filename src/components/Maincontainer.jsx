@@ -4,7 +4,10 @@ import { useContext } from 'react';
 import { UserStateContext } from '../context/UserContext';
 import { Link } from 'react-router-dom'
 
-export default function Maincontainer(props) {
+export default function Maincontainer() {
+    /// Current path
+    const [path, setPath] = useState("/")
+
     /// Rides status
     const [rideArray, setrideArray] = useState(null)
 
@@ -67,46 +70,40 @@ export default function Maincontainer(props) {
     let nearestRidesFiltered = []
     const userStationCode = userData.userData.station_code
     rideData && rideData.forEach(element => {
-        if(element.station_path.includes(userStationCode)){
+        if (element.station_path.includes(userStationCode)) {
             nearestRidesFiltered.push(element)
         }
-    }); 
+    });
     const nearestRidesArray = rideData && nearestRidesFiltered.map(element => {
         return <RideInfoCard id={element.id} origin={element.origin_station_code} path={element.station_path} date={element.date} city={element.city} state={element.state} imgUrl={element.map_url} />
     })
 
-    const setRideState = (data) => {
-        setrideArray(data)
+    function handlePath (event) {
+        console.log(event.target.id)
+        switch (event.target.id) {
+            case "past":
+                setrideArray(pastRidesArray)
+                break;
+            case "upComing":
+                setrideArray(upcomingRidesArray)
+                break;
+            case "nearest":
+                setrideArray(nearestRidesArray)
+                break;
+            default:
+                break;
+        }
     }
 
-    // Rides switch case
-    switch (props.rides) {
-        case "upcoming":
-            () => {
-                setrideArray(upcomingRidesArray)
-            }
-            break;
-        case "past":
-            () => {
-                setrideArray(pastRidesArray)
-            }
-            break;
-        case "nearest":
-            () => {
-                setrideArray(nearestRidesArray)
-            }
-            break;
-        default:
-            break;
-    } 
+
 
     return (
         <div className='px-5 fs-5 mt-4'>
             <div className="navigation text-white d-flex justify-content-between">
                 <ul className='d-flex ps-0'>
-                    <li><Link id="nearest" className="rideLinks text-decoration-none text-white" to="/" >Nearest Rides ({nearestRidesArray && nearestRidesArray.length})</Link></li>
-                    <li className='mx-4'><Link id="upComing" className='rideLinks text-decoration-none text-white' to="/upcoming_rides">Upcoming Rides ({upcomingRidesArray && upcomingRidesArray.length})</Link></li>
-                    <li><Link id="past" className='rideLinks text-decoration-none text-white' to="/past_rides">Past Rides ({pastRidesArray && pastRidesArray.length})</Link></li>
+                    <li><a id="nearest" onClick={handlePath} className="rideLinks text-decoration-none text-white" >Nearest Rides ({nearestRidesArray && nearestRidesArray.length})</a></li>
+                    <li className='mx-4'><a id="upComing" onClick={handlePath} className='rideLinks text-decoration-none text-white'>Upcoming Rides ({upcomingRidesArray && upcomingRidesArray.length})</a></li>
+                    <li><a id="past" onClick={handlePath} className='rideLinks text-decoration-none text-white' >Past Rides ({pastRidesArray && pastRidesArray.length})</a></li>
                 </ul>
                 <span>Filter</span>
             </div>
