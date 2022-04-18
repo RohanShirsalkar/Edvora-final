@@ -72,19 +72,12 @@ export default function Maincontainer() {
     let nearestRidesFiltered = []
     const userStationCode = userData.userData.station_code
     rideData && rideData.forEach(element => {
-        for (let i = 0; i < element.station_path.length; i++) {
-
-            if (element.date.replace(/\//g, "").slice(0, 8) == today) {
-                nearestRidesFiltered.push(element)
-
-                // if (element.station_path.includes(userStationCode)) {
-                //     nearestRidesFiltered.push(element)
-                // }
-                // else if (element.station_path.includes(userStationCode + i)) {
-                //     nearestRidesFiltered.push(element)
-                // }
-            }
+        if (element.station_path.includes(userStationCode)) {
+            nearestRidesFiltered.push(element)
         }
+        // for (let i = 0; i < element.station_path.length; i++) {
+            
+        // }
     });
     const nearestRidesArray = rideData && nearestRidesFiltered.map(element => {
         return <RideInfoCard id={element.id} origin={element.origin_station_code} path={element.station_path} date={element.date} city={element.city} state={element.state} imgUrl={element.map_url} />

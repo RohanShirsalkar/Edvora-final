@@ -30,7 +30,7 @@ export default function RideInfoCard(props) {
           <li>Ride Id : {props.id}</li>
           <li>Origin Station : {props.origin}</li>
           <li>station_path : [ {stationPath} ] </li>
-          <li>Date : {props.date.replace(/\//g, "").slice(0,8 )} </li>
+          <li> Date : {props.date} </li>
           <li>Distance : N/A</li>
         </ul>
       </div>
