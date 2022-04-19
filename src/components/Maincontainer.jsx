@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import RideInfoCard from './RideInfoCard'
 import { useContext } from 'react';
 import { UserStateContext } from '../context/UserContext';
-import { Link } from 'react-router-dom'
+import Filter from './Filter';
 
 /// Third branch ///
 
@@ -44,41 +44,37 @@ export default function Maincontainer() {
         return <RideInfoCard id={element.id} origin={element.origin_station_code} path={element.station_path} date={element.date} city={element.city} state={element.state} imgUrl={element.map_url} />
     })
 
-    /// Today's Date
+    /// New filter
+    let upcomingRidesArray = []
+    let pastRidesArray = []
+    let nearestRidesArray = []
+
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octomber", "November", "December"]
     let today = new Date()
-    let dd = String(today.getDate()).padStart(2, '0')
-    let mm = String(today.getMonth() + 1).padStart(2, '0')
-    let yyyy = today.getFullYear()
-    today = mm + '/' + dd + '/' + yyyy
+    // let today = new Date("2022-03-23")
 
-
-    /// Upcoming rides
-    const upcomingRidesFiltered = rideData && rideData.filter(element => {
-        return (element.date.replace(/\//g, "").slice(0, 8) > today)
-    })
-    const upcomingRidesArray = upcomingRidesFiltered && upcomingRidesFiltered.map(element => {
-        return <RideInfoCard id={element.id} origin={element.origin_station_code} path={element.station_path} date={element.date} city={element.city} state={element.state} imgUrl={element.map_url} />
-    })
-
-    /// Past rides
-    const pastRidesFiltered = rideData && rideData.filter(element => {
-        return (element.date.replace(/\//g, "").slice(0, 8) < today)
-    })
-    const pastRidesArray = pastRidesFiltered && pastRidesFiltered.map(element => {
-        return <RideInfoCard id={element.id} origin={element.origin_station_code} path={element.station_path} date={element.date} city={element.city} state={element.state} imgUrl={element.map_url} />
-    })
-
-    /// Nearest rides
-    let nearestRidesFiltered = []
-    const userStationCode = userData.userData.station_code
     rideData && rideData.forEach(element => {
-        if (element.station_path.includes(userStationCode)) {
-            nearestRidesFiltered.push(element)
+        const userStationCode = userData.userData.station_code
+        const rideDate = new Date(element.date)
+
+        if (rideDate > today) {
+            upcomingRidesArray.push(
+                <RideInfoCard id={element.id} origin={element.origin_station_code} path={element.station_path} date={element.date} city={element.city} state={element.state} imgUrl={element.map_url} />
+            )
+        }
+        else if (rideDate < today) {
+            pastRidesArray.push(
+                <RideInfoCard id={element.id} origin={element.origin_station_code} path={element.station_path} date={element.date} city={element.city} state={element.state} imgUrl={element.map_url} />
+            )
+        }
+        else if (rideDate == today && element.station_path.includes(userStationCode)) {
+            nearestRidesArray.push(
+                <RideInfoCard id={element.id} origin={element.origin_station_code} path={element.station_path} date={element.date} city={element.city} state={element.state} imgUrl={element.map_url} />
+            )
         }
     });
-    const nearestRidesArray = rideData && nearestRidesFiltered.map(element => {
-        return <RideInfoCard id={element.id} origin={element.origin_station_code} path={element.station_path} date={element.date} city={element.city} state={element.state} imgUrl={element.map_url} />
-    })
+
+    ////
 
     function handlePath(event) {
         switch (event.target.id) {
@@ -104,7 +100,7 @@ export default function Maincontainer() {
                     <li className='mx-4'><a id="upComing" onClick={handlePath} className='rideLinks text-decoration-none text-white'>Upcoming Rides ({upcomingRidesArray && upcomingRidesArray.length})</a></li>
                     <li><a id="past" onClick={handlePath} className='rideLinks text-decoration-none text-white' >Past Rides ({pastRidesArray && pastRidesArray.length})</a></li>
                 </ul>
-                <span>Filter</span>
+                <span><Filter /></span>
             </div>
             {rideArray ? rideArray : nearestRidesArray}
         </div>
