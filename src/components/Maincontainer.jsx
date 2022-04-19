@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { UserStateContext } from '../context/UserContext';
 import { Link } from 'react-router-dom'
 
-/// Second branch
+/// Third branch
 
 export default function Maincontainer() {
     /// Current path
@@ -75,9 +75,6 @@ export default function Maincontainer() {
         if (element.station_path.includes(userStationCode)) {
             nearestRidesFiltered.push(element)
         }
-        // for (let i = 0; i < element.station_path.length; i++) {
-            
-        // }
     });
     const nearestRidesArray = rideData && nearestRidesFiltered.map(element => {
         return <RideInfoCard id={element.id} origin={element.origin_station_code} path={element.station_path} date={element.date} city={element.city} state={element.state} imgUrl={element.map_url} />

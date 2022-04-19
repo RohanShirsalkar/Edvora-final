@@ -20,6 +20,8 @@ export default function RideInfoCard(props) {
   }
   // console.log()
 
+  const rideDate = new Date (props.date)
+
   return (
     // <div>
     <div className="d-flex flex-row justify-content-between card bg-black text-light p-4 mb-4 mt-2">
