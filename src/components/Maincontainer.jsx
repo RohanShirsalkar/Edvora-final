@@ -8,7 +8,7 @@ import Filter from './Filter';
 
 export default function Maincontainer() {
     /// Current path
-    const [path, setPath] = useState("/")
+    const [userSelectedState, setUserSelectedState] = useState('null')
 
     /// Rides status
     const [rideArray, setrideArray] = useState(null)
@@ -90,6 +90,50 @@ export default function Maincontainer() {
         }
     }
 
+    /// All States array
+    
+
+    /// handle state and city filter
+
+    let filteredStateArray = [];
+    let filteredCityArray = [];
+
+    function handleFilter(event) {
+        let queryState = "";
+        let queryCity = "";
+        
+        filteredStateArray = []
+        filteredCityArray = []
+
+        if (event.target.id == "state") {
+            queryState = event.target.text
+            rideData && rideData.forEach(element => {
+                if (element.state == queryState) {
+                    filteredStateArray.push(element)
+                    setUserSelectedState(element.state)
+                }    
+             });
+        }
+        else if (event.target.id == "city"){
+            queryCity = event.target.text
+            rideData.forEach(element => {
+                if (element.city == queryCity){
+                    filteredCityArray.push(element)
+                }
+            })
+        }
+
+        filteredCityArray.length != 0 && console.log(filteredCityArray) 
+    }
+
+    // handleFilter("Karnataka")
+
+    function handleFltr (event) {
+        let id = event.target.text
+        console.log(id)
+    }
+
+
     return (
         <div className='px-5 fs-5 mt-4'>
             <div className="navigation text-white d-flex justify-content-between">
@@ -98,7 +142,7 @@ export default function Maincontainer() {
                     <li className='mx-4'><a id="upComing" onClick={handlePath} className='rideLinks text-decoration-none text-white'>Upcoming Rides ({upcomingRidesArray && upcomingRidesArray.length})</a></li>
                     <li><a id="past" onClick={handlePath} className='rideLinks text-decoration-none text-white' >Past Rides ({pastRidesArray && pastRidesArray.length})</a></li>
                 </ul>
-                <span><Filter /></span>
+                <span><Filter handleFilter={handleFilter} handleFltr={handleFltr} selectedState={userSelectedState} rideData={rideData} /></span>
             </div>
             {rideArray ? rideArray : nearestRidesArray}
         </div>
