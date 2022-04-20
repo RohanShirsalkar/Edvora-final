@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { UserStateContext } from '../context/UserContext';
 import Filter from './Filter';
 
-/// Third branch ///
+/// fourth branch ///
 
 export default function Maincontainer() {
     /// Current path
@@ -49,9 +49,7 @@ export default function Maincontainer() {
     let pastRidesArray = []
     let nearestRidesArray = []
 
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "Octomber", "November", "December"]
     let today = new Date()
-    // let today = new Date("2022-03-23")
 
     rideData && rideData.forEach(element => {
         const userStationCode = userData.userData.station_code
