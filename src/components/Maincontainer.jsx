@@ -91,7 +91,7 @@ export default function Maincontainer() {
     }
 
     /// All States array
-    
+
 
     /// handle state and city filter
 
@@ -101,7 +101,7 @@ export default function Maincontainer() {
     function handleFilter(event) {
         let queryState = "";
         let queryCity = "";
-        
+
         filteredStateArray = []
         filteredCityArray = []
 
@@ -109,28 +109,27 @@ export default function Maincontainer() {
             queryState = event.target.text
             rideData && rideData.forEach(element => {
                 if (element.state == queryState) {
-                    filteredStateArray.push(element)
+                    filteredStateArray.push(
+                        <RideInfoCard id={element.id} origin={element.origin_station_code} path={element.station_path} date={element.date} city={element.city} state={element.state} imgUrl={element.map_url} />
+                    )
                     setUserSelectedState(element.state)
-                }    
-             });
+                    setrideArray(filteredStateArray)
+                }
+            });
         }
-        else if (event.target.id == "city"){
+        else if (event.target.id == "city") {
             queryCity = event.target.text
             rideData.forEach(element => {
-                if (element.city == queryCity){
-                    filteredCityArray.push(element)
+                if (element.city == queryCity) {
+                    filteredCityArray.push(
+                        <RideInfoCard id={element.id} origin={element.origin_station_code} path={element.station_path} date={element.date} city={element.city} state={element.state} imgUrl={element.map_url} />
+                    )
+                    setrideArray(filteredCityArray)
                 }
             })
         }
 
-        filteredCityArray.length != 0 && console.log(filteredCityArray) 
-    }
-
-    // handleFilter("Karnataka")
-
-    function handleFltr (event) {
-        let id = event.target.text
-        console.log(id)
+        filteredCityArray.length != 0 && console.log(filteredCityArray)
     }
 
 
@@ -142,9 +141,9 @@ export default function Maincontainer() {
                     <li className='mx-4'><a id="upComing" onClick={handlePath} className='rideLinks text-decoration-none text-white'>Upcoming Rides ({upcomingRidesArray && upcomingRidesArray.length})</a></li>
                     <li><a id="past" onClick={handlePath} className='rideLinks text-decoration-none text-white' >Past Rides ({pastRidesArray && pastRidesArray.length})</a></li>
                 </ul>
-                <span><Filter handleFilter={handleFilter} handleFltr={handleFltr} selectedState={userSelectedState} rideData={rideData} /></span>
+                <span><Filter handleFilter={handleFilter} selectedState={userSelectedState} rideData={rideData} /></span>
             </div>
-            {rideArray ? rideArray : nearestRidesArray}
+            {rideArray ? rideArray : pastRidesArray}
         </div>
     )
 }
