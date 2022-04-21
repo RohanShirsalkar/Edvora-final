@@ -7,17 +7,20 @@ import Filter from './Filter';
 /// fourth branch ///
 
 export default function Maincontainer() {
-    /// Current path
-    const [userSelectedState, setUserSelectedState] = useState('null')
 
     /// Rides status
     const [rideArray, setrideArray] = useState(null)
+
+    /// path
+    const [currentPath, setCurrentPath] = useState("past")
 
     /// Ride Data state
     const [rideData, setRideData] = useState();
 
     /// User data state
     const userData = useContext(UserStateContext)
+
+    const [userSelectedState, setUserSelectedState] = useState(null)
 
     /// Fetching user data from API
     useEffect(() => {
@@ -73,22 +76,40 @@ export default function Maincontainer() {
     });
 
     ////
-
+    
+    const allLinks = document.querySelectorAll(".rideLinks")
     function handlePath(event) {
+
+        allLinks.forEach(element => {
+            element.style.fontWeight = "normal"
+        });
+
         switch (event.target.id) {
             case "past":
                 setrideArray(pastRidesArray)
+                setCurrentPath("past")
                 break;
             case "upComing":
                 setrideArray(upcomingRidesArray)
+                setCurrentPath("upComing")
                 break;
             case "nearest":
                 setrideArray(nearestRidesArray)
+                setCurrentPath("nearest")
                 break;
             default:
                 break;
         }
     }
+
+    /// Link highlighter 
+
+    allLinks.forEach(element => {
+        if (element.id == currentPath) {
+            element.style.fontWeight = "bold"
+        }
+
+    });
 
     /// All States array
 

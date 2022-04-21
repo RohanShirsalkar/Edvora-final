@@ -38,7 +38,7 @@ export default function Filter(props) {
             <div className="modal-body d-flex align-items-center flex-column">
               <div className="dropdown ">
                 <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style={{ width: "120px" }}>
-                  {props.selectedState == 'null' ?  "Select state" : props.selectedState}
+                  {props.selectedState == null ?  "Select state" : props.selectedState}
                 </button>
                 <ul className="dropdown-menu overflow-auto" aria-labelledby="dropdownMenuButton1"  style={{height : "200px"}}>
                   {allStates}
