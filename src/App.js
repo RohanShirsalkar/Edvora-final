@@ -14,20 +14,24 @@ function App() {
 
   return (
     <>
-      <Router>
+    
+
         <UserState>
 
 
           <Navbar />
+          <Maincontainer />
+
+{/* 
           
-          <Routes>
             <Route path={"/"} element={<Maincontainer rides={"nearest"} />} />
             <Route path={"/upcoming_rides"} element={<Maincontainer rides={"upcoming"} />} />
             <Route path={"/past_rides"} element={<Maincontainer rides={"past"} />} />
-          </Routes>
+           */}
 
         </UserState>
-      </Router>
+
+      
     </>
   );
 }

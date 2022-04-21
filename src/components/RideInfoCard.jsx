@@ -7,18 +7,25 @@ export default function RideInfoCard(props) {
     return props.path.indexOf(element) < props.path.length - 1 ? element + ", " : element
   })
 
-  const calendar = {
-    days : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-    months : ["January", "February", "March", "April", "May", "June", "Jully", "August", "September", "October", "November", "December"]
-  }
+  const months = ["January", "February", "March", "April", "May", "June", "Jully", "August", "September", "October", "November", "December"]
 
-  const dateObj = {
-    month : props.date.slice(0, 2),
-    date : props.date.slice(3,5),
-    year : props.date.slice(6, 10),
-    time : props.date.slice(11,16)
+  const rideDate = new Date(props.date)
+  let date = rideDate.getDate()
+  
+  if (rideDate.getDate() == 1) {
+    date = rideDate.getDate() + "st"
   }
-  // console.log()
+  else if (rideDate.getDate() == 2) {
+    date = rideDate.getDate() + "nd"
+  }
+  else if (rideDate.getDate() == 3) {
+    date = rideDate.getDate() + "rd"
+  }
+  else {
+    date = rideDate.getDate() + "th"
+  }
+  
+  let finalDateFormat = `${date} ${months[rideDate.getMonth()].slice(0, 3)} ${rideDate.getFullYear()} ${rideDate.getHours()}:${rideDate.getMinutes()}`
 
   return (
     // <div>
@@ -29,8 +36,8 @@ export default function RideInfoCard(props) {
         <ul className='fs-5 d-flex flex-column justify-content-around'>
           <li>Ride Id : {props.id}</li>
           <li>Origin Station : {props.origin}</li>
-          <li>station_path : [ {stationPath} ] </li>
-          <li>Date : {props.date.replace(/\//g, "").slice(0,8 )} </li>
+          <li>station_path : [{stationPath}] </li>
+          <li> Date : {finalDateFormat} </li>
           <li>Distance : N/A</li>
         </ul>
       </div>
